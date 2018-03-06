@@ -1,0 +1,30 @@
+- name: Installation Dependent Package
+  shell: yum -y install numactl
+- name: Create Daemon User
+  user: name={{ mongodb_user }}
+- name: Create parentdir Directory
+  file: dest={{ mongodb_parentdir }} state=directory
+- name: Create Data Directory
+  file: dest={{ mongodb_datadir }} state=directory
+- name: Create Scripts Directory
+  file: dest={{ mongodb_scripts }} state=directory
+- name: Copy Program File
+  copy:
+    src: mongodb-linux-x86_64-rhel70-{{ mongodb_version }}.tgz
+    dest: /tmp/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}.tgz
+    owner: mongo
+    group: mongo
+- name: Unzip Program File
+  shell: tar -zxvf /tmp/mongodb-linux-x86_64-rhel70-{{ mongodb_version }}.tgz -C {{ mongodb_parentdir }}
+- name: Create Soft Link Directory
+#  shell: ln -s {{ mongodb_parentdir }}/mongodb-linux-x86_64-rhel70-{{mongodb_version}} {{ mongodb_basedir }}
+  file:
+    src: "{{ mongodb_parentdir }}/mongodb-linux-x86_64-rhel70-{{mongodb_version}}"
+    dest: "{{ mongodb_basedir }}"
+    state: "link"
+- name: Modify Owner And Group
+  file: path={{ item }} owner={{ mongodb_user }} group={{ mongodb_user }} mode=0775
+  with_items:
+    - "{{ mongodb_parentdir }}/mongodb-linux-x86_64-rhel70-{{mongodb_version}}"
+    - "{{ mongodb_datadir }}"
+    - "{{ mongodb_scripts }}"

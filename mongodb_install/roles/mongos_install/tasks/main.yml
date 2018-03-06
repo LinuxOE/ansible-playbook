@@ -1,0 +1,30 @@
+- name: "Mongos Node Deployment ----- Copy File 'mongos.conf'"
+  template:
+    src: mongos.conf
+    dest: "{{ mongodb_scripts }}/config/mongos.conf"
+    owner: mongo
+    group: mongo
+    mode: 0664
+- name: "Mongos Node Deployment ----- Create Log Directory"
+  file:
+    dest: "{{ mongodb_datadir }}/mongos/{{ item }}"
+    state: directory
+    owner: mongo
+    group: mongo
+    mode: 0775
+  with_items:
+    - log
+- name: "Mongos Node Deployment ----- Copy Script File 'run_mongos.sh'"
+  template:
+    src: run_mongos.sh
+    dest: "{{ mongodb_scripts }}/run_mongos.sh"
+    owner: mongo
+    group: mongo
+    mode: 0775
+- name: "Mongos Node Deployment ----- Copy Script File 'stop_mongos.sh'"
+  template:
+    src: stop_mongos.sh
+    dest: "{{ mongodb_scripts }}/stop_mongos.sh"
+    owner: mongo
+    group: mongo
+    mode: 0775

@@ -1,0 +1,2 @@
+- name: "Generate Key File"
+  shell: openssl rand -base64 741 -out /tmp/key

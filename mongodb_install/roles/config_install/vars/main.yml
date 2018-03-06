@@ -1,0 +1,6 @@
+mongodb_user: mongo
+mongodb_version: 3.4.13
+mongodb_parentdir: /opt/cominfo
+mongodb_basedir: "{{ mongodb_parentdir }}/mongodb"
+mongodb_datadir: /data/mongodb
+mongodb_scripts: /home/mongo/mongo_scripts

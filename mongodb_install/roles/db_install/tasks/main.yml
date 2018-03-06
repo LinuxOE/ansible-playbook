@@ -1,0 +1,38 @@
+- name: "Data Node Deployment ----- Create Config Directory"
+  file:
+    dest: "{{ mongodb_scripts }}/config"
+    state: directory
+    owner: mongo
+    group: mongo
+    mode: 0775
+- name: "Data Node Deployment ----- Copy File 'db.conf'"
+  template:
+    src: db.conf
+    dest: "{{ mongodb_scripts }}/config/db.conf"
+    owner: mongo
+    group: mongo
+    mode: 0664
+- name: "Data Node Deployment ----- Create Data&Log Directory"
+  file:
+    dest: "{{ mongodb_datadir }}/db/{{ item }}"
+    state: directory
+    owner: mongo
+    group: mongo
+    mode: 0775
+  with_items:
+    - data
+    - log
+- name: "Data Node Deployment ----- Copy Script File 'run_db.sh'"
+  template:
+    src: run_db.sh
+    dest: "{{ mongodb_scripts }}/run_db.sh"
+    owner: mongo
+    group: mongo
+    mode: 0775
+- name: "Data Node Deployment ----- Copy Script File 'stop_db.sh'"
+  template:
+    src: stop_db.sh
+    dest: "{{ mongodb_scripts }}/stop_db.sh"
+    owner: mongo
+    group: mongo
+    mode: 0775

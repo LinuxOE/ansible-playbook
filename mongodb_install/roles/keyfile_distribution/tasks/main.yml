@@ -1,0 +1,14 @@
+- name: "Create Keyfile Directory"
+  file:
+    dest: "{{mongodb_scripts}}/keyfile"
+    state: directory
+    owner: mongo
+    group: mongo
+    mode: 0775
+- name: "File Distribution"
+  copy:
+    src: /tmp/key
+    dest: "{{mongodb_scripts}}/keyfile/key"
+    owner: mongo
+    group: mongo
+    mode: 0600
